@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>약 추천 시스템</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>증상 기반 약 추천 시스템</h1>
+        </header>
+        
+        <main>
+            <section class="search-section">
+                <h2>증상과 선호하는 약 형태를 입력하세요</h2>
+                
+                {% if error %}
+                <div class="error-message">{{ error }}</div>
+                {% endif %}
+                
+                <form action="/recommend" method="post">
+                    <div class="form-group">
+                        <label for="symptoms">증상 (쉼표로 구분):</label>
+                        <input type="text" id="symptoms" name="symptoms" placeholder="예: 두통, 발열, 인후통" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>약 제형:</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="form_type" value="알약" checked>
+                                알약
+                            </label>
+                            <label>
+                                <input type="radio" name="form_type" value="물약">
+                                물약
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">약 추천 받기</button>
+                </form>
+            </section>
+            
+            <section class="info-section">
+                <h2>사용 안내</h2>
+                <ul>
+                    <li>증상을 입력할 때 쉼표로 구분하여 여러 증상을 입력할 수 있습니다.</li>
+                    <li>선호하는 약 제형(알약 또는 물약)을 선택하세요.</li>
+                    <li>이 서비스는 단순 정보 제공 용도이며, 전문적인 의료 조언을 대체할 수 없습니다.</li>
+                    <li>심각한 증상이 있다면 반드시 의사와 상담하세요.</li>
+                </ul>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 약 추천 시스템 - Perplexity API 활용</p>
+            <p>이 서비스는 의학적 조언을 대체할 수 없으며, 정보 제공 목적으로만 사용됩니다.</p>
+        </footer>
+    </div>
+</body>
+</html>
