@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from typing import List, Dict, Any, Optional
 import logging
 
-# 환경 변수 로드
 load_dotenv()
 logger = logging.getLogger(__name__)
 
@@ -26,7 +25,7 @@ class PerplexityService:
         }
         
         payload = {
-            "model": "sonar-small-online",
+            "model": "sonar-pro",
             "messages": [
                 {
                     "role": "user",
@@ -50,17 +49,16 @@ class PerplexityService:
             logger.error(f"Error querying Perplexity API: {e}")
             return None
     
-    def get_medication_recommendations(self, symptoms: List[str], form_type: str) -> Optional[List[Dict[str, Any]]]:
+    def get_medication_recommendations(self, symptoms: List[str]) -> Optional[List[Dict[str, Any]]]:
         """Get medication recommendations based on symptoms and form type."""
         symptoms_text = ", ".join(symptoms)
-        form_type_text = "tablets/pills" if form_type.lower() == "알약" else "liquid/syrup"
         
         query = (
             f"I have the following symptoms: {symptoms_text}. "
-            f"Please recommend exactly 3 over-the-counter medications in {form_type_text} form "
+            f"Please recommend exactly 3 over-the-counter medications "
             f"that would help, ranked by effectiveness (1st, 2nd, and 3rd choice). "
             f"For each medication, provide: 1) Brand name, 2) Active ingredients, "
-            f"3) Recommended dosage, 4) Side effects, 5) When to consult a doctor. "
+            f"3) Recommended dosage, 4) Side effects"
             f"Format as a list with these details for each medication."
         )
         
@@ -90,7 +88,6 @@ class PerplexityService:
                     "active_ingredients": None,
                     "dosage": None,
                     "side_effects": None,
-                    "consult_doctor": None
                 }
                 
                 # Extract medication name
@@ -119,12 +116,7 @@ class PerplexityService:
                 side_effects_match = re.search(r'side effects:\s*([^\n]+(?:\n\s+[^\n]+)*)', section, re.IGNORECASE)
                 if side_effects_match:
                     medication_info["side_effects"] = side_effects_match.group(1).strip()
-                
-                # Extract when to consult doctor
-                consult_match = re.search(r'(?:when to )?consult (?:a )?doctor:\s*([^\n]+(?:\n\s+[^\n]+)*)', section, re.IGNORECASE)
-                if consult_match:
-                    medication_info["consult_doctor"] = consult_match.group(1).strip()
-                
+
                 if medication_info["name"]:
                     medications.append(medication_info)
                     rank += 1

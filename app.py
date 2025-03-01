@@ -34,7 +34,6 @@ async def get_home(request: Request):
 async def recommend_medication(
     request: Request,
     symptoms: str = Form(...),
-    form_type: str = Form(...)
 ):
     """Process medication recommendation request"""
     try:
@@ -50,18 +49,8 @@ async def recommend_medication(
                 }
             )
         
-        # Validate medication form type
-        if form_type not in ["알약", "물약"]:
-            return templates.TemplateResponse(
-                "index.html", 
-                {
-                    "request": request,
-                    "error": "Please select a valid medication form (알약 or 물약)."
-                }
-            )
-        
         # Get medication recommendations via Perplexity API
-        medications = perplexity_service.get_medication_recommendations(symptom_list, form_type)
+        medications = perplexity_service.get_medication_recommendations(symptom_list)
         
         if not medications:
             return templates.TemplateResponse(
@@ -79,7 +68,6 @@ async def recommend_medication(
                 "request": request,
                 "medications": medications,
                 "symptoms": symptoms,
-                "form_type": form_type
             }
         )
         
