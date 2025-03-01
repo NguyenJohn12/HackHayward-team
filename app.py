@@ -34,7 +34,13 @@ async def get_home(request: Request):
 async def recommend_medication(
     request: Request,
     symptoms: str = Form(...),
+    gender: str = Form(None),  # Make optional
+    age: str = Form(None),     # Make optional
+    allergic: str = Form(None)  # Make optional
 ):
+    gender = gender or "not specified"
+    age = age or "not specified"
+    allergic = allergic or "none"
     """Process medication recommendation request"""
     try:
         # Split and clean symptoms
@@ -50,7 +56,12 @@ async def recommend_medication(
             )
         
         # Get medication recommendations via Perplexity API
-        medications = perplexity_service.get_medication_recommendations(symptom_list)
+        medications = perplexity_service.get_medication_recommendations(
+            symptom_list, 
+            gender, 
+            age, 
+            allergic
+        )
         
         if not medications:
             return templates.TemplateResponse(
@@ -68,6 +79,9 @@ async def recommend_medication(
                 "request": request,
                 "medications": medications,
                 "symptoms": symptoms,
+                "gender": gender,
+                "age": age,
+                "allergic": allergic
             }
         )
         

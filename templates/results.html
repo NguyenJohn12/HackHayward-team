@@ -14,7 +14,10 @@
         
         <main>
             <section class="search-summary">
-                <h2>Search Criteria</h2>
+                <h2>Your Information</h2>
+                <p><strong>Gender:</strong> {{ gender }}</p>
+                <p><strong>Age:</strong> {{ age }}</p>
+                <p><strong>Allergies:</strong> {{ allergic }}</p>
                 <p><strong>Symptoms:</strong> {{ symptoms }}</p>
                 <a href="/" class="back-btn">Search Again</a>
             </section>
@@ -29,18 +32,19 @@
                         
                         <div class="medication-info">
                             <h3>{{ med.name }}</h3>
-                            
-                            {% if med.active_ingredients %}
-                            <div class="info-group">
-                                <h4>Active Ingredients:</h4>
-                                <p>{{ med.active_ingredients }}</p>
+
+                            {% if med.cvs_link %}
+                            <div class="action-buttons">
+                                <a href="{{ med.cvs_link }}" target="_blank" class="cvs-link-btn">
+                                    <i class="fas fa-shopping-cart"></i> Find at CVS
+                                </a>
                             </div>
-                            {% endif %}
-                            
-                            {% if med.dosage %}
+                            {% endif %}                        
+
+                            {% if med.medication_type %}
                             <div class="info-group">
-                                <h4>Recommended Dosage:</h4>
-                                <p>{{ med.dosage }}</p>
+                                <h4>Type:</h4>
+                                <p>{{ med.medication_type }}</p>
                             </div>
                             {% endif %}
                             
@@ -50,7 +54,6 @@
                                 <p>{{ med.side_effects }}</p>
                             </div>
                             {% endif %}
-                            
                         </div>
                     </div>
                     {% endfor %}

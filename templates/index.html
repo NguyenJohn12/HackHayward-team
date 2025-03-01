@@ -1,49 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medication Recommender</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Symptom-Based Medication Recommender</h1>
-        </header>
-        
-        <main>
-            <section class="search-section">
-                <h2>Enter your symptoms and preferred medication form</h2>
-                
-                {% if error %}
-                <div class="error-message">{{ error }}</div>
-                {% endif %}
-                
-                <form action="/recommend" method="post">
-                    <div class="form-group">
-                        <label for="symptoms">Symptoms (separate with commas):</label>
-                        <input type="text" id="symptoms" name="symptoms" placeholder="e.g., headache, fever, sore throat" required>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">Get Recommendations</button>
-                </form>
-            </section>
-            
-            <section class="info-section">
-                <h2>Usage Guide</h2>
-                <ul>
-                    <li>Enter multiple symptoms separated by commas.</li>
-                    <li>This service is for informational purposes only and does not replace professional medical advice.</li>
-                    <li>If you have severe symptoms, please consult a doctor.</li>
-                </ul>
-            </section>
-        </main>
-        
-        <footer>
-            <p>&copy; 2025 Medication Recommender - Powered by Perplexity API</p>
-            <p>This service cannot replace medical advice and is for informational purposes only.</p>
-        </footer>
+<form action="/recommend" method="post">
+    <div class="form-group">
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="">Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
     </div>
-</body>
-</html>
+    
+    <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age" placeholder="e.g., 35" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="allergic">Allergies (if none, type 'none'):</label>
+        <input type="text" id="allergic" name="allergic" placeholder="e.g., penicillin, aspirin" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="symptoms">Symptoms (separate with commas):</label>
+        <input type="text" id="symptoms" name="symptoms" placeholder="e.g., headache, fever, sore throat" required>
+    </div>
+    
+    <button type="submit" class="submit-btn">Get Recommendations</button>
+</form>
