@@ -11,6 +11,13 @@
         <header>
             <h1>Medication Recommendations</h1>
         </header>
+        <div class="loading-screen" id="loadingScreen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Searching for medications...</div>
+                <div class="loading-subtext">Analyzing your symptoms</div>
+            </div>
+        </div>
         
         <main>
             <section class="search-summary">
@@ -19,7 +26,7 @@
                 <p><strong>Age:</strong> {{ age }}</p>
                 <p><strong>Allergies:</strong> {{ allergic }}</p>
                 <p><strong>Symptoms:</strong> {{ symptoms }}</p>
-                <a href="/" class="back-btn">Search Again</a>
+                <a href="/form" class="back-btn">Search Again</a>
             </section>
             
             <div class="tab-container">
@@ -118,6 +125,27 @@
     </div>
     
     <script>
+        // Show loading screen when form is submitted
+        document.addEventListener('DOMContentLoaded', function() {
+            // If coming from form submission, show loading screen
+            if (document.referrer.includes('/form')) {
+                const loadingScreen = document.getElementById('loadingScreen');
+                
+                // Hide loading screen after content loads
+                window.addEventListener('load', function() {
+                    setTimeout(function() {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(function() {
+                            loadingScreen.style.display = 'none';
+                        }, 500);
+                    }, 1500);
+                });
+            } else {
+                // Hide loading screen immediately if not coming from form
+                document.getElementById('loadingScreen').style.display = 'none';
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             // Tab switching functionality
             const tabBtns = document.querySelectorAll('.tab-btn');

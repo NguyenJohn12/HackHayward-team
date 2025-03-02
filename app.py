@@ -28,8 +28,16 @@ templates = Jinja2Templates(directory="templates")
 perplexity_service = PerplexityService()
 
 @app.get("/", response_class=HTMLResponse)
-async def get_home(request: Request):
-    """Render the homepage"""
+async def get_landing(request: Request):
+    """Render the landing page"""
+    return templates.TemplateResponse(
+        "landing.html", 
+        {"request": request}
+    )
+
+@app.get("/form", response_class=HTMLResponse)
+async def get_form(request: Request):
+    """Render the form page"""
     return templates.TemplateResponse(
         "index.html", 
         {"request": request}
