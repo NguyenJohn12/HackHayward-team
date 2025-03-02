@@ -360,567 +360,248 @@
 </head>
 <body>
     <div class="container">
-        <h1>Medical Symptom Checker</h1>
-        
-        <!-- User Information Section -->
-        <div class="section" id="user-info-section">
-            <div class="section-title"><h2>Basic Information</h2></div>
-            
-            <div class="form-group">
-                <p>Gender: </p>
-                <select id="gender" name="gender">
-                    <option value="">Select gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <p>Age: </p>
-                <input type="number" id="age" name="age" placeholder="Enter your age" autocomplete="off" min="1" max="120">
-            </div>
-            
-            <div class="form-group">
-                <p>Height (cm): </p>
-                <input type="number" id="height" name="height" placeholder="Enter your height in cm" autocomplete="off">
-            </div>
-            
-            <div class="form-group">
-                <p>Weight (kg): </p>
-                <input type="number" id="weight" name="weight" placeholder="Enter your weight in kg" autocomplete="off">
-            </div>
-            
-            <div class="form-group">
-                <p>Existing Medical Conditions: </p>
-                <textarea id="conditions" name="conditions" placeholder="List any existing medical conditions separated by commas" rows="3"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <p>Current Medications: </p>
-                <textarea id="medications" name="medications" placeholder="List any medications you are currently taking" rows="3"></textarea>
-            </div>
-            
-            <div class="button-group">
-                <div></div> <!-- Empty div for flex spacing -->
-                <button class="next-btn" id="to-symptoms-btn">Next: Symptoms</button>
+<<<<<<< HEAD
+        <header>
+            <h1>Medication Recommendations</h1>
+        </header>
+        <div class="loading-screen" id="loadingScreen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Searching for medications...</div>
+                <div class="loading-subtext">Analyzing your symptoms</div>
             </div>
         </div>
         
-        <!-- Symptoms Section -->
-        <div class="section" id="symptoms-section" style="display: none;">
-            <div class="section-title"><h2>What Symptoms Are You Experiencing?</h2></div>
+        <main>
+            <section class="search-summary">
+                <h2>Your Information</h2>
+                <p><strong>Gender:</strong> {{ gender }}</p>
+                <p><strong>Age:</strong> {{ age }}</p>
+                <p><strong>Allergies:</strong> {{ allergic }}</p>
+                <p><strong>Symptoms:</strong> {{ symptoms }}</p>
+                <a href="/form" class="back-btn">Search Again</a>
+            </section>
             
-            <div class="symptoms-grid">
-                <div class="symptom-checkbox">
-                    <input type="checkbox" id="headache" name="symptoms" value="Headache">
-                    <label for="headache">Headache</label>
-                </div>
-                <div class="symptom-checkbox">
-                    <input type="checkbox" id="fever" name="symptoms" value="Fever">
-                    <label for="fever">Fever</label>
-                </div>
-                <div class="symptom-checkbox">
-                    <input type="checkbox" id="cough" name="symptoms" value="Cough">
-                    <label for="cough">Cough</label>
-                </div>
-                <div class="symptom-checkbox">
-                    <input type="checkbox" id="sore-throat" name="symptoms" value="Sore Throat">
-                    <label for="sore-throat">Sore Throat</label>
-                </div>
-                <div class="symptom-checkbox">
-                    <input type="checkbox" id="runny-nose" name="symptoms" value="Runny Nose">
-                    <label for="runny-nose">Runny Nose</label>
-                </div>
-                <div class="symptom-checkbox">
-                    <input type="checkbox" id="body-aches" name="symptoms" value="Body Aches">
-                    <label for="body-aches">Body Aches</label>
-                </div>
-                <div class="symptom-checkbox">
-                    <input type="checkbox" id="fatigue" name="symptoms" value="Fatigue">
-                    <label for="fatigue">Fatigue</label>
-                </div>
-                <div class="symptom-checkbox">
-                    <input type="checkbox" id="nausea" name="symptoms" value="Nausea">
-                    <label for="nausea">Nausea</label>
-                </div>
-                <div class="symptom-checkbox">
-                    <input type="checkbox" id="dizziness" name="symptoms" value="Dizziness">
-                    <label for="dizziness">Dizziness</label>
-                </div>
-                <div class="symptom-checkbox">
-                    <input type="checkbox" id="chest-pain" name="symptoms" value="Chest Pain">
-                    <label for="chest-pain">Chest Pain</label>
-                </div>
-            </div>
-            
-            <div class="form-group" style="margin-top: 20px;">
-                <p>Symptom Severity: </p>
-                <div class="severity-container">
-                    <div class="severity-option">
-                        <input type="radio" id="mild" name="severity" value="mild">
-                        <label for="mild">Mild</label>
-                    </div>
-                    <div class="severity-option">
-                        <input type="radio" id="moderate" name="severity" value="moderate">
-                        <label for="moderate">Moderate</label>
-                    </div>
-                    <div class="severity-option">
-                        <input type="radio" id="severe" name="severity" value="severe">
-                        <label for="severe">Severe</label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <p>How long have you had these symptoms? </p>
-                <select id="duration" name="duration">
-                    <option value="">Select duration</option>
-                    <option value="today">Today</option>
-                    <option value="yesterday">Since yesterday</option>
-                    <option value="few-days">Few days</option>
-                    <option value="week">About a week</option>
-                    <option value="more-than-week">More than a week</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <p>Additional Symptoms or Notes: </p>
-                <textarea id="additional" name="additional" placeholder="Describe any other symptoms or relevant information" rows="3"></textarea>
-            </div>
-            
-            <div class="button-group">
-                <button class="back-btn" id="back-to-info-btn">Back</button>
-                <button class="analyze-btn" id="analyze-btn">Analyze Symptoms</button>
-            </div>
-        </div>
-        
-        <!-- Results Section -->
-        <div class="section" id="results-section" style="display: none;">
-            <div class="section-title"><h2>Medication Recommendations</h2></div>
-            
-            <div class="search-summary">
-                <h3>Your Information</h3>
-                <p><strong>Gender:</strong> <span id="result-gender"></span></p>
-                <p><strong>Age:</strong> <span id="result-age"></span></p>
-                <p><strong>Allergies:</strong> <span id="result-allergies">None specified</span></p>
-                <p><strong>Symptoms:</strong> <span id="result-symptoms"></span></p>
-            </div>
-            
-            <div class="results-section">
-                <h3>Recommended Medications</h3>
-                
-                <div class="medication-list" id="medication-list">
-                    <!-- Medication cards will be inserted here dynamically -->
+            <div class="tab-container">
+                <div class="tab-navigation">
+                    <button class="tab-btn active" data-tab="medications">Medications</button>
+                    <button class="tab-btn" data-tab="pharmacies">Nearby Pharmacies</button>
                 </div>
                 
-                <div class="disclaimer">
-                    <h3>Disclaimer</h3>
-                    <p>This information is provided for reference only and cannot replace professional medical advice.</p>
-                    <p>Always read medication labels carefully before use.</p>
-                    <p>If symptoms are severe or persistent, please consult a healthcare professional.</p>
+                <!-- Medication Tab-->
+                <div class="tab-content active" id="medications-tab">
+                    <section class="results-section">
+                        <h2>Recommended Medications</h2>
+                        
+                        <div class="medication-list">
+                            {% for med in medications %}
+                            <div class="medication-card rank-{{ med.rank }}">
+                                <div class="rank-badge">Rank {{ med.rank }}</div>
+                                
+                                <div class="medication-info">
+                                    <h3>{{ med.name }}</h3>
+                                    
+                                    {% if med.cvs_link %}
+                                    <div class="cvs-link-container">
+                                        <a href="{{ med.cvs_link }}" target="_blank" class="cvs-link-btn">
+                                            <span class="cvs-icon">CVS</span>
+                                            <span class="cvs-text">View at CVS Pharmacy</span>
+                                            <span class="cvs-note">See images, prices, and details</span>
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    {% if med.image_url %}
+                                    <img src="{{ med.image_url }}" alt="{{ med.name }}" class="medication-image">
+                                    {% endif %}
+
+                                    {% if med.medication_type %}
+                                    <div class="info-group">
+                                        <h4>Type:</h4>
+                                        <p>{{ med.medication_type }}</p>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    {% if med.side_effects %}
+                                    <div class="info-group">
+                                        <h4>Side Effects:</h4>
+                                        <p>{{ med.side_effects }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </div>
+                
+                <!-- Pharmacy tab -->
+                <div class="tab-content" id="pharmacies-tab">
+                    <section class="pharmacy-section">
+                        <h2>Find Nearby Pharmacies</h2>
+                        
+                        <div class="zipcode-form">
+                            <form id="pharmacy-search-form">
+                                <div class="form-group">
+                                    <label for="zipcode">Enter your ZIP code:</label>
+                                    <input type="text" id="zipcode" name="zipcode" pattern="[0-9]{5}" placeholder="e.g. 95132" required>
+                                    <button type="submit" class="search-btn">Find Pharmacies</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div id="pharmacy-results" class="pharmacy-results">
+                            <div class="loading" style="display: none;">
+                                <div class="spinner"></div>
+                                <p>Searching for pharmacies...</p>
+                            </div>
+                            
+                            <div class="pharmacy-list">
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
             
-            <div class="button-group">
-                <button class="back-btn" id="back-to-symptoms-btn">Back</button>
-                <button class="start-over-btn" id="start-over-btn">Start Over</button>
+            <div class="disclaimer">
+                <h3>Disclaimer</h3>
+                <p>This information is provided for reference only and cannot replace professional medical advice.</p>
+                <p>Always read medication labels carefully before use.</p>
+                <p>If symptoms are severe or persistent, please consult a healthcare professional.</p>
             </div>
-        </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Medication Recommender - Powered by Perplexity API</p>
+            <p>This service cannot replace medical advice and is for informational purposes only.</p>
+        </footer>
     </div>
-
-    <footer>
-        <p>&copy; <script>document.write(new Date().getFullYear())</script> Medical Symptom Checker - For informational purposes only</p>
-        <p>This service cannot replace medical advice. Please consult with a healthcare professional for medical advice.</p>
-    </footer>
-
+    
     <script>
-        // Combined JavaScript from script.js
+        // Show loading screen when form is submitted
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize the application
-            initializeApp();
+            // If coming from form submission, show loading screen
+            if (document.referrer.includes('/form')) {
+                const loadingScreen = document.getElementById('loadingScreen');
+                
+                // Hide loading screen after content loads
+                window.addEventListener('load', function() {
+                    setTimeout(function() {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(function() {
+                            loadingScreen.style.display = 'none';
+                        }, 500);
+                    }, 1500);
+                });
+            } else {
+                // Hide loading screen immediately if not coming from form
+                document.getElementById('loadingScreen').style.display = 'none';
+            }
         });
 
-        function initializeApp() {
-            // Add event listeners to navigation buttons
-            document.getElementById('to-symptoms-btn').addEventListener('click', validateAndProceedToSymptoms);
-            document.getElementById('back-to-info-btn').addEventListener('click', showUserInfoSection);
-            document.getElementById('analyze-btn').addEventListener('click', validateAndAnalyzeSymptoms);
-            document.getElementById('back-to-symptoms-btn').addEventListener('click', showSymptomSection);
-            document.getElementById('start-over-btn').addEventListener('click', function() {
-                window.location.href = 'index.html';
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all tab buttons
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    
+                    // Hide all tab contents
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    // Show selected tab content
+                    const tabId = btn.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
             });
             
-            // Add BMI calculation when height and weight are changed
-            const heightInput = document.getElementById('height');
-            const weightInput = document.getElementById('weight');
+            // Pharmacy search form handling
+            const pharmacyForm = document.getElementById('pharmacy-search-form');
+            const pharmacyResults = document.getElementById('pharmacy-results');
+            const pharmacyList = document.querySelector('.pharmacy-list');
+            const loadingIndicator = document.querySelector('.loading');
             
-            if (heightInput && weightInput) {
-                heightInput.addEventListener('change', calculateBMI);
-                weightInput.addEventListener('change', calculateBMI);
-            }
-        }
+            if (pharmacyForm) {
+                pharmacyForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const zipcode = document.getElementById('zipcode').value.trim();
+                    
+                    if (!zipcode || !/^\d{5}$/.test(zipcode)) {
+                        alert('Please enter a valid 5-digit ZIP code');
+                        return;
+                    }
+                    
+                    // Show loading indicator
+                    loadingIndicator.style.display = 'block';
+                    pharmacyList.innerHTML = '';
+                    
+                    try {
+                        // Send request to server
+                        const response = await fetch(`/api/pharmacies?zipcode=${zipcode}`);
+                        const data = await response.json();
+                        
+                        // Hide loading indicator
+                        loadingIndicator.style.display = 'none';
+                        
+                        if (!response.ok) {
+                            // Handle error response
+                            const errorMessage = data.error || "Failed to find pharmacies";
+                            pharmacyList.innerHTML = `<p class="error">${errorMessage}</p>`;
+                            return;
+                        }
+                        
+                        // Process successful response
+                        if (data.pharmacies && data.pharmacies.length > 0) {
+                            data.pharmacies.forEach(pharmacy => {
+                                const pharmacyItem = document.createElement('div');
+                                pharmacyItem.className = 'pharmacy-item';
+                                pharmacyItem.innerHTML = `
+                                    <h3>${escapeHtml(pharmacy.name)}</h3>
+                                    <p class="pharmacy-address">${escapeHtml(pharmacy.address)}</p>
+                                    ${pharmacy.distance ? `<p class="pharmacy-distance">${escapeHtml(pharmacy.distance)}</p>` : ''}
+                                    <div class="pharmacy-actions">
+                                        <a href="https://maps.google.com/?q=${encodeURIComponent(pharmacy.name + ' ' + pharmacy.address)}" 
+                                        target="_blank" class="map-link">View on Map</a>
+                                    </div>
+                                `;
+                                pharmacyList.appendChild(pharmacyItem);
+                            });
+                        } else {
+                            pharmacyList.innerHTML = '<p class="no-results">No pharmacies found near this ZIP code.</p>';
+                        }
+                    } catch (error) {
+                        console.error('Error fetching pharmacies:', error);
+                        loadingIndicator.style.display = 'none';
+                        pharmacyList.innerHTML = '<p class="error">Error finding pharmacies. Please try again.</p>';
 
-        // Navigation functions
-        function showUserInfoSection() {
-            document.getElementById('user-info-section').style.display = 'block';
-            document.getElementById('symptoms-section').style.display = 'none';
-            document.getElementById('results-section').style.display = 'none';
-        }
-
-        function showSymptomSection() {
-            document.getElementById('user-info-section').style.display = 'none';
-            document.getElementById('symptoms-section').style.display = 'block';
-            document.getElementById('results-section').style.display = 'none';
-        }
-
-        function showResultsSection() {
-            // Gather user information
-            const gender = document.getElementById('gender').value;
-            const age = document.getElementById('age').value;
-            const conditions = document.getElementById('conditions').value;
-            
-            // Get selected symptoms
-            const selectedSymptoms = [];
-            const checkboxes = document.querySelectorAll('input[name="symptoms"]:checked');
-            checkboxes.forEach(checkbox => {
-                selectedSymptoms.push(checkbox.value);
-            });
-            
-            // Get severity
-            let severity = '';
-            const severityOptions = document.querySelectorAll('input[name="severity"]:checked');
-            if (severityOptions.length > 0) {
-                severity = severityOptions[0].value;
-            }
-            
-            // Get duration
-            const duration = document.getElementById('duration').value;
-            
-            // Get additional notes
-            const additionalNotes = document.getElementById('additional').value;
-            
-            // Display in results section
-            document.getElementById('result-gender').textContent = gender || 'Not specified';
-            document.getElementById('result-age').textContent = age || 'Not specified';
-            document.getElementById('result-symptoms').textContent = selectedSymptoms.join(', ') || 'None selected';
-            
-            // Show results section
-            document.getElementById('user-info-section').style.display = 'none';
-            document.getElementById('symptoms-section').style.display = 'none';
-            document.getElementById('results-section').style.display = 'block';
-            
-            // In a real application, you would call an API here to get medication recommendations
-            // For now, we'll just generate placeholders
-            generateMedicationRecommendations(selectedSymptoms, severity, duration, conditions);
-        }
-
-        // Validation functions
-        function validateAndProceedToSymptoms() {
-            const gender = document.getElementById('gender').value;
-            const age = document.getElementById('age').value;
-            
-            // Simple validation
-            if (!gender) {
-                alert('Please select your gender.');
-                return;
-            }
-            
-            if (!age || age < 1 || age > 120) {
-                alert('Please enter a valid age (between 1 and 120).');
-                return;
-            }
-            
-            // If validation passes, proceed to symptoms section
-            showSymptomSection();
-        }
-
-        function validateAndAnalyzeSymptoms() {
-            const selectedSymptoms = document.querySelectorAll('input[name="symptoms"]:checked');
-            const severity = document.querySelector('input[name="severity"]:checked');
-            const duration = document.getElementById('duration').value;
-            
-            // Simple validation
-            if (selectedSymptoms.length === 0) {
-                alert('Please select at least one symptom.');
-                return;
-            }
-            
-            if (!severity) {
-                alert('Please select symptom severity.');
-                return;
-            }
-            
-            if (!duration) {
-                alert('Please select how long you have had these symptoms.');
-                return;
-            }
-            
-            // If validation passes, proceed to results section
-            showResultsSection();
-        }
-
-        // Helper functions
-        function calculateBMI() {
-            const heightInput = document.getElementById('height');
-            const weightInput = document.getElementById('weight');
-            
-            if (!heightInput || !weightInput) return;
-            
-            const height = parseFloat(heightInput.value);
-            const weight = parseFloat(weightInput.value);
-            
-            if (height && weight && height > 0 && weight > 0) {
-                // BMI formula: weight (kg) / [height (m)]²
-                const heightInMeters = height / 100;
-                const bmi = weight / (heightInMeters * heightInMeters);
-                
-                // We could display this somewhere in the UI
-                console.log('BMI calculated:', bmi.toFixed(1));
-                
-                // In a real app, you might want to display this information to the user
-                // or use it in the symptom analysis
-            }
-        }
-
-        function generateMedicationRecommendations(symptoms, severity, duration, conditions) {
-            const medicationList = document.getElementById('medication-list');
-            medicationList.innerHTML = ''; // Clear existing content
-            
-            if (symptoms.length === 0) {
-                const noSymptomsMessage = document.createElement('p');
-                noSymptomsMessage.textContent = 'No symptoms selected. Please go back and select symptoms for analysis.';
-                medicationList.appendChild(noSymptomsMessage);
-                return;
-            }
-            
-            // Sample medications based on common symptoms
-            const medications = [];
-            
-            // Common pain relievers for multiple symptoms
-            const painRelievers = [
-                {
-                    name: 'Acetaminophen (Tylenol)',
-                    type: 'Pain Reliever & Fever Reducer',
-                    sideEffects: 'Liver damage (with high doses or when combined with alcohol)'
-                },
-                {
-                    name: 'Ibuprofen (Advil, Motrin)',
-                    type: 'NSAID Pain Reliever & Fever Reducer',
-                    sideEffects: 'Stomach upset, heartburn, increased risk of heart attack or stroke with long-term use'
-                },
-                {
-                    name: 'Aspirin',
-                    type: 'NSAID Pain Reliever & Fever Reducer',
-                    sideEffects: 'Stomach upset, heartburn, increased risk of bleeding'
-                }
-            ];
-            
-            // Add medications based on symptoms
-            if (symptoms.includes('Headache')) {
-                // Add pain relievers for headache
-                medications.push({
-                    ...painRelievers[0],
-                    rank: 1
-                });
-                
-                medications.push({
-                    ...painRelievers[1],
-                    rank: 2
-                });
-                
-                // Add specific headache medication
-                medications.push({
-                    name: 'Excedrin Migraine',
-                    rank: 3,
-                    type: 'Combination Pain Reliever',
-                    sideEffects: 'Nervousness, dizziness, insomnia (contains caffeine)'
-                });
-            }
-            
-            if (symptoms.includes('Fever') || symptoms.includes('Body Aches')) {
-                // For fever and body aches, pain relievers are first line
-                if (!medications.some(med => med.name === painRelievers[0].name)) {
-                    medications.push({
-                        ...painRelievers[0],
-                        rank: 1
-                    });
-                }
-                
-                if (!medications.some(med => med.name === painRelievers[1].name)) {
-                    medications.push({
-                        ...painRelievers[1],
-                        rank: 2
-                    });
-                }
-            }
-            
-            if (symptoms.includes('Cough')) {
-                medications.push({
-                    name: 'Dextromethorphan (Robitussin DM)',
-                    rank: 1,
-                    type: 'Cough Suppressant',
-                    sideEffects: 'Drowsiness, dizziness, nausea'
-                });
-                
-                medications.push({
-                    name: 'Guaifenesin (Mucinex)',
-                    rank: 2,
-                    type: 'Expectorant',
-                    sideEffects: 'Nausea, vomiting, stomach pain'
-                });
-            }
-            
-            if (symptoms.includes('Runny Nose') || symptoms.includes('Sore Throat')) {
-                medications.push({
-                    name: 'Diphenhydramine (Benadryl)',
-                    rank: 1,
-                    type: 'Antihistamine',
-                    sideEffects: 'Drowsiness, dry mouth, dizziness'
-                });
-                
-                medications.push({
-                    name: 'Loratadine (Claritin)',
-                    rank: 2,
-                    type: 'Non-Drowsy Antihistamine',
-                    sideEffects: 'Headache, dry mouth (less drowsiness than Benadryl)'
-                });
-                
-                if (symptoms.includes('Sore Throat')) {
-                    medications.push({
-                        name: 'Benzocaine Lozenges (Cepacol)',
-                        rank: 3,
-                        type: 'Throat Pain Reliever',
-                        sideEffects: 'Numbness in mouth, allergic reactions (rare)'
-                    });
-                }
-            }
-            
-            if (symptoms.includes('Nausea')) {
-                medications.push({
-                    name: 'Bismuth Subsalicylate (Pepto-Bismol)',
-                    rank: 1,
-                    type: 'Antacid & Anti-nausea',
-                    sideEffects: 'Black stools, temporary darkening of tongue'
-                });
-                
-                medications.push({
-                    name: 'Dimenhydrinate (Dramamine)',
-                    rank: 2,
-                    type: 'Anti-nausea & Motion Sickness',
-                    sideEffects: 'Drowsiness, dry mouth, blurred vision'
-                });
-            }
-            
-            if (symptoms.includes('Dizziness')) {
-                medications.push({
-                    name: 'Meclizine (Bonine, Antivert)',
-                    rank: 1,
-                    type: 'Anti-vertigo Medication',
-                    sideEffects: 'Drowsiness, dry mouth'
-                });
-            }
-            
-            if (symptoms.includes('Chest Pain')) {
-                // For chest pain, we should strongly suggest medical attention
-                const warningMessage = document.createElement('div');
-                warningMessage.className = 'disclaimer';
-                warningMessage.innerHTML = `
-                    <h3>Important Warning</h3>
-                    <p><strong>Chest pain can be a sign of a serious medical condition, including heart attack.</strong></p>
-                    <p>If you are experiencing chest pain, especially if it is severe, sudden, or accompanied by shortness of breath, arm/jaw pain, or sweating, please seek immediate medical attention.</p>
-                    <p>Call emergency services (911 in the US) or go to the nearest emergency room.</p>
-                `;
-                medicationList.appendChild(warningMessage);
-                
-                // Still provide over-the-counter options but with clear warnings
-                medications.push({
-                    name: 'Aspirin (81mg)',
-                    rank: 1,
-                    type: 'Blood Thinner',
-                    sideEffects: 'CONSULT A DOCTOR BEFORE TAKING. May help during a heart attack, but should only be taken under medical advice.'
-                });
-            }
-            
-            // Adjust medication rankings if specific conditions warrant it
-            if (conditions && conditions.toLowerCase().includes('liver')) {
-                // Move acetaminophen down in rank or add warnings
-                medications.forEach(med => {
-                    if (med.name.includes('Acetaminophen')) {
-                        med.sideEffects = 'NOT RECOMMENDED for those with liver disease. ' + med.sideEffects;
                     }
                 });
             }
-            
-            if (conditions && (conditions.toLowerCase().includes('stomach') || 
-                conditions.toLowerCase().includes('ulcer') || 
-                conditions.toLowerCase().includes('gastritis'))) {
-                // Add warnings for NSAIDs
-                medications.forEach(med => {
-                    if (med.name.includes('Ibuprofen') || med.name.includes('Aspirin')) {
-                        med.sideEffects = 'USE WITH CAUTION with stomach conditions. May worsen ulcers or gastritis. ' + med.sideEffects;
-                    }
-                });
+            // Helper function to escape HTML to prevent XSS
+            function escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
             }
             
-            // Create medication cards
-            medications.forEach((med, index) => {
-                // Check if medication already exists (to avoid duplicates)
-                if (document.querySelector(`.medication-card[data-name="${med.name}"]`)) {
-                    return; // Skip if already added
+            // Check if there's a zipcode in the URL parameters to auto-search
+            const urlParams = new URLSearchParams(window.location.search);
+            const zipcodeParam = urlParams.get('zipcode');
+            if (zipcodeParam && document.getElementById('zipcode')) {
+                document.getElementById('zipcode').value = zipcodeParam;
+                // Trigger pharmacy search if valid zipcode is in URL
+                if (/^\d{5}$/.test(zipcodeParam) && pharmacyForm) {
+                    pharmacyForm.dispatchEvent(new Event('submit'));
                 }
-                
-                const card = document.createElement('div');
-                card.className = `medication-card rank-${med.rank}`;
-                card.setAttribute('data-name', med.name);
-                
-                // Add fake pharmacy link for most medications
-                const cvsLink = index % 2 === 0 ? 
-                    `<div class="action-buttons">
-                        <a href="#" class="cvs-link-btn" onclick="alert('This would link to a pharmacy product page in a real application.'); return false;">
-                            <i class="fas fa-shopping-cart"></i> Find at Pharmacy
-                        </a>
-                    </div>` : '';
-                
-                const html = `
-                    <div class="rank-badge">Rank ${med.rank}</div>
-                    <div class="medication-info">
-                        <h3>${med.name}</h3>
-                        ${cvsLink}
-                        <div class="info-group">
-                            <h4>Type:</h4>
-                            <p>${med.type}</p>
-                        </div>
-                        <div class="info-group">
-                            <h4>Side Effects:</h4>
-                            <p>${med.sideEffects}</p>
-                        </div>
-                    </div>
-                `;
-                
-                card.innerHTML = html;
-                medicationList.appendChild(card);
-            });
-            
-            if (medications.length === 0 && !symptoms.includes('Chest Pain')) {
-                const noRecommendationsMessage = document.createElement('p');
-                noRecommendationsMessage.textContent = 'No specific medication recommendations for the selected symptoms. Please consult a healthcare professional.';
-                medicationList.appendChild(noRecommendationsMessage);
             }
-            
-            // Add general disclaimer at the bottom
-            if (!document.querySelector('.disclaimer')) {
-                const disclaimer = document.createElement('div');
-                disclaimer.className = 'disclaimer';
-                disclaimer.innerHTML = `
-                    <h3>Disclaimer</h3>
-                    <p>This information is provided for reference only and cannot replace professional medical advice.</p>
-                    <p>Always read medication labels carefully before use.</p>
-                    <p>If symptoms are severe or persistent, please consult a healthcare professional.</p>
-                `;
-                medicationList.appendChild(disclaimer);
-            }
-        }
+        });       
     </script>
 </body>
 </html>
