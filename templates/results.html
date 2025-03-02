@@ -5,356 +5,357 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Symptom Checker</title>
     <style>
-    /* Global Styles */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-        background-color: #f5f7fa;
-        color: #333;
-        line-height: 1.6;
-    }
-
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    h1 {
-        color: #2c3e50;
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 2.2rem;
-    }
-
-    h2 {
-        color: #3498db;
-        margin-bottom: 20px;
-        font-size: 1.8rem;
-    }
-
-    h3 {
-        color: #2c3e50;
-        margin-bottom: 15px;
-        font-size: 1.4rem;
-    }
-
-    h4 {
-        color: #34495e;
-        margin-bottom: 5px;
-        font-size: 1.1rem;
-    }
-
-    p {
-        margin-bottom: 10px;
-    }
-
-    /* Section Styles */
-    .section {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-        margin-bottom: 30px;
-    }
-
-    .section-title {
-        border-bottom: 2px solid #3498db;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-    }
-
-    /* Form Elements */
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group p {
-        font-weight: bold;
-        margin-bottom: 8px;
-        color: #2c3e50;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    select,
-    textarea {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 16px;
-        transition: border 0.3s;
-    }
-
-    input[type="text"]:focus,
-    input[type="number"]:focus,
-    select:focus,
-    textarea:focus {
-        border-color: #3498db;
-        outline: none;
-        box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
-    }
-
-    /* Buttons */
-    .button-group {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 30px;
-    }
-
-    button {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-    }
-
-    button:hover {
-        transform: translateY(-2px);
-    }
-
-    .next-btn {
-        background-color: #3498db;
-        color: white;
-    }
-
-    .next-btn:hover {
-        background-color: #2980b9;
-    }
-
-    .back-btn {
-        background-color: #95a5a6;
-        color: white;
-    }
-
-    .back-btn:hover {
-        background-color: #7f8c8d;
-    }
-
-    .analyze-btn {
-        background-color: #2ecc71;
-        color: white;
-    }
-
-    .analyze-btn:hover {
-        background-color: #27ae60;
-    }
-
-    .start-over-btn {
-        background-color: #e74c3c;
-        color: white;
-    }
-
-    .start-over-btn:hover {
-        background-color: #c0392b;
-    }
-
-    /* Symptoms Grid */
-    .symptoms-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 15px;
-    }
-
-    .symptom-checkbox {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        background-color: #f9f9f9;
-        border-radius: 5px;
-        transition: background-color 0.2s;
-    }
-
-    .symptom-checkbox:hover {
-        background-color: #edf2f7;
-    }
-
-    .symptom-checkbox input[type="checkbox"] {
-        margin-right: 10px;
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-    }
-
-    .symptom-checkbox label {
-        cursor: pointer;
-        font-size: 15px;
-    }
-
-    /* Severity Options */
-    .severity-container {
-        display: flex;
-        gap: 20px;
-    }
-
-    .severity-option {
-        display: flex;
-        align-items: center;
-        padding: 5px 0;
-    }
-
-    .severity-option input[type="radio"] {
-        margin-right: 8px;
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-    }
-
-    .severity-option label {
-        cursor: pointer;
-    }
-
-    /* Results Section */
-    .search-summary {
-        background-color: #edf2f7;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 30px;
-    }
-
-    .search-summary p {
-        margin-bottom: 8px;
-    }
-
-    .medication-list {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 20px;
-        margin-bottom: 30px;
-    }
-
-    .medication-card {
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-    }
-
-    .rank-1 {
-        border-left: 5px solid #2ecc71;
-    }
-
-    .rank-2 {
-        border-left: 5px solid #3498db;
-    }
-
-    .rank-3 {
-        border-left: 5px solid #f39c12;
-    }
-
-    .rank-badge {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background-color: #f1c40f;
-        color: #2c3e50;
-        padding: 5px 10px;
-        font-size: 13px;
-        font-weight: bold;
-        border-bottom-left-radius: 8px;
-    }
-
-    .medication-info {
-        padding: 20px;
-    }
-
-    .info-group {
-        margin-bottom: 15px;
-    }
-
-    .info-group h4 {
-        color: #7f8c8d;
-        font-size: 14px;
-        margin-bottom: 5px;
-    }
-
-    .action-buttons {
-        margin: 15px 0;
-    }
-
-    .cvs-link-btn {
-        display: inline-block;
-        padding: 8px 15px;
-        background-color: #1d76b3;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 14px;
-        transition: background-color 0.3s;
-    }
-
-    .cvs-link-btn:hover {
-        background-color: #166299;
-    }
-
-    /* Disclaimer */
-    .disclaimer {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 8px;
-        border-left: 5px solid #e74c3c;
-    }
-
-    .disclaimer h3 {
-        color: #e74c3c;
-        margin-bottom: 10px;
-    }
-
-    .disclaimer p {
-        font-size: 14px;
-        margin-bottom: 8px;
-    }
-
-    /* Footer */
-    footer {
-        text-align: center;
-        padding: 20px;
-        margin-top: 30px;
-        color: #7f8c8d;
-        font-size: 14px;
-    }
-
-    footer p {
-        margin-bottom: 5px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .container {
-            padding: 15px;
+        /* Combined styles from style1.css */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .section {
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
         }
 
-        .symptoms-grid {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
         }
-        
-        .button-group {
-            flex-direction: column;
-            gap: 10px;
+
+        h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
         }
-        
-        button {
+
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        h4 {
+            color: #34495e;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        /* Section Styles */
+        .section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group p {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
             width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
         }
-        
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .next-btn {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .next-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .back-btn {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .back-btn:hover {
+            background-color: #7f8c8d;
+        }
+
+        .analyze-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .analyze-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .start-over-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .start-over-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* Symptoms Grid */
+        .symptoms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .symptom-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .symptom-checkbox:hover {
+            background-color: #edf2f7;
+        }
+
+        .symptom-checkbox input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .symptom-checkbox label {
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        /* Severity Options */
         .severity-container {
-            flex-direction: column;
-            gap: 10px;
+            display: flex;
+            gap: 20px;
         }
-    }
+
+        .severity-option {
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+        }
+
+        .severity-option input[type="radio"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .severity-option label {
+            cursor: pointer;
+        }
+
+        /* Results Section */
+        .search-summary {
+            background-color: #edf2f7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .search-summary p {
+            margin-bottom: 8px;
+        }
+
+        .medication-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .medication-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            background-color: white;
+        }
+
+        .rank-1 {
+            border-left: 5px solid #2ecc71;
+        }
+
+        .rank-2 {
+            border-left: 5px solid #3498db;
+        }
+
+        .rank-3 {
+            border-left: 5px solid #f39c12;
+        }
+
+        .rank-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #f1c40f;
+            color: #2c3e50;
+            padding: 5px 10px;
+            font-size: 13px;
+            font-weight: bold;
+            border-bottom-left-radius: 8px;
+        }
+
+        .medication-info {
+            padding: 20px;
+        }
+
+        .info-group {
+            margin-bottom: 15px;
+        }
+
+        .info-group h4 {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .action-buttons {
+            margin: 15px 0;
+        }
+
+        .cvs-link-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #1d76b3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .cvs-link-btn:hover {
+            background-color: #166299;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #e74c3c;
+        }
+
+        .disclaimer h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .disclaimer p {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        footer p {
+            margin-bottom: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .symptoms-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .severity-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -402,7 +403,7 @@
             
             <div class="button-group">
                 <div></div> <!-- Empty div for flex spacing -->
-                <button class="next-btn" id="next-btn">Next: Symptoms</button>
+                <button class="next-btn" id="to-symptoms-btn">Next: Symptoms</button>
             </div>
         </div>
         
@@ -489,7 +490,7 @@
             </div>
             
             <div class="button-group">
-                <button class="back-btn" id="symptoms-back-btn">Back</button>
+                <button class="back-btn" id="back-to-info-btn">Back</button>
                 <button class="analyze-btn" id="analyze-btn">Analyze Symptoms</button>
             </div>
         </div>
@@ -522,475 +523,404 @@
             </div>
             
             <div class="button-group">
-                <button class="back-btn" id="results-back-btn">Back</button>
+                <button class="back-btn" id="back-to-symptoms-btn">Back</button>
                 <button class="start-over-btn" id="start-over-btn">Start Over</button>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2025 Medical Symptom Checker - For informational purposes only</p>
+        <p>&copy; <script>document.write(new Date().getFullYear())</script> Medical Symptom Checker - For informational purposes only</p>
         <p>This service cannot replace medical advice. Please consult with a healthcare professional for medical advice.</p>
     </footer>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize the application
-        initializeApp();
-    });
-
-    function initializeApp() {
-        // Check if all required elements exist
-        if (!document.getElementById('user-info-section') || 
-            !document.getElementById('symptoms-section') || 
-            !document.getElementById('results-section')) {
-            console.error('Required sections are missing from the DOM');
-            return;
-        }
-        
-        // Add event listeners to navigation buttons
-        document.getElementById('next-btn').addEventListener('click', function() {
-            validateAndProceedToSymptoms();
+        // Combined JavaScript from script.js
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the application
+            initializeApp();
         });
-        
-        document.getElementById('symptoms-back-btn').addEventListener('click', function() {
-            showUserInfoSection();
-        });
-        
-        document.getElementById('results-back-btn').addEventListener('click', function() {
-            showSymptomSection();
-        });
-        
-        // Add event listener to analyze button
-        document.getElementById('analyze-btn').addEventListener('click', function() {
-            validateAndAnalyzeSymptoms();
-        });
-        
-        // Add event listener to start over button
-        document.getElementById('start-over-btn').addEventListener('click', function() {
-            window.location.assign('front_page.html');
-        });
-        
-        // Add BMI calculation when height and weight are changed
-        const heightInput = document.getElementById('height');
-        const weightInput = document.getElementById('weight');
-        
-        if (heightInput && weightInput) {
-            heightInput.addEventListener('change', calculateBMI);
-            weightInput.addEventListener('change', calculateBMI);
-        }
-    }
 
-    // Navigation functions
-    function showUserInfoSection() {
-        document.getElementById('user-info-section').style.display = 'block';
-        document.getElementById('symptoms-section').style.display = 'none';
-        document.getElementById('results-section').style.display = 'none';
-    }
-
-    function showSymptomSection() {
-        document.getElementById('user-info-section').style.display = 'none';
-        document.getElementById('symptoms-section').style.display = 'block';
-        document.getElementById('results-section').style.display = 'none';
-    }
-
-    function showResultsSection() {
-        // Gather user information
-        const gender = document.getElementById('gender').value;
-        const age = document.getElementById('age').value;
-        const conditions = document.getElementById('conditions').value;
-        
-        // Get selected symptoms
-        const selectedSymptoms = [];
-        const checkboxes = document.querySelectorAll('input[name="symptoms"]:checked');
-        checkboxes.forEach(checkbox => {
-            selectedSymptoms.push(checkbox.value);
-        });
-        
-        // Get severity
-        let severity = '';
-        const severityOptions = document.querySelectorAll('input[name="severity"]:checked');
-        if (severityOptions.length > 0) {
-            severity = severityOptions[0].value;
-        }
-        
-        // Get duration
-        const duration = document.getElementById('duration').value;
-        
-        // Get additional notes
-        const additionalNotes = document.getElementById('additional').value;
-        
-        // Display in results section
-        document.getElementById('result-gender').textContent = gender || 'Not specified';
-        document.getElementById('result-age').textContent = age || 'Not specified';
-        document.getElementById('result-symptoms').textContent = selectedSymptoms.join(', ') || 'None selected';
-        
-        // Show results section
-        document.getElementById('user-info-section').style.display = 'none';
-        document.getElementById('symptoms-section').style.display = 'none';
-        document.getElementById('results-section').style.display = 'block';
-        
-        // Generate medication recommendations
-        generateMedicationRecommendations(selectedSymptoms, severity, duration, conditions);
-    }
-
-    // Validation functions
-    function validateAndProceedToSymptoms() {
-        const gender = document.getElementById('gender').value;
-        const age = document.getElementById('age').value;
-        
-        // Simple validation
-        if (!gender) {
-            alert('Please select your gender.');
-            return;
-        }
-        
-        if (!age || age < 1 || age > 120) {
-            alert('Please enter a valid age (between 1 and 120).');
-            return;
-        }
-        
-        // If validation passes, proceed to symptoms section
-        showSymptomSection();
-
-    // Continuing from the existing script
-function validateAndProceedToSymptoms() {
-    const gender = document.getElementById('gender').value;
-    const age = document.getElementById('age').value;
-    
-    // Simple validation
-    if (!gender) {
-        alert('Please select your gender.');
-        return;
-    }
-    
-    if (!age || age < 1 || age > 120) {
-        alert('Please enter a valid age (between 1 and 120).');
-        return;
-    }
-    
-    // If validation passes, proceed to symptoms section
-    showSymptomSection();
-}
-
-function validateAndAnalyzeSymptoms() {
-    // Get selected symptoms
-    const checkboxes = document.querySelectorAll('input[name="symptoms"]:checked');
-    if (checkboxes.length === 0) {
-        alert('Please select at least one symptom.');
-        return;
-    }
-    
-    // Check severity
-    const severityOptions = document.querySelectorAll('input[name="severity"]:checked');
-    if (severityOptions.length === 0) {
-        alert('Please select symptom severity.');
-        return;
-    }
-    
-    // Check duration
-    const duration = document.getElementById('duration').value;
-    if (!duration) {
-        alert('Please select how long you have had these symptoms.');
-        return;
-    }
-    
-    // If validation passes, proceed to results section
-    showResultsSection();
-}
-
-function calculateBMI() {
-    const height = parseFloat(document.getElementById('height').value);
-    const weight = parseFloat(document.getElementById('weight').value);
-    
-    if (height && weight && height > 0 && weight > 0) {
-        // BMI formula: weight (kg) / (height (m))²
-        const heightInMeters = height / 100;
-        const bmi = weight / (heightInMeters * heightInMeters);
-        
-        // Optionally show BMI information somewhere in the form
-        console.log(`BMI calculated: ${bmi.toFixed(1)}`);
-        
-        // Could add a field to display this to the user if desired
-    }
-}
-
-function generateMedicationRecommendations(symptoms, severity, duration, existingConditions) {
-    // Clear previous recommendations
-    const medicationList = document.getElementById('medication-list');
-    medicationList.innerHTML = '';
-    
-    // Check if there are no symptoms selected
-    if (symptoms.length === 0) {
-        medicationList.innerHTML = '<p>No symptoms selected. Please go back and select your symptoms.</p>';
-        return;
-    }
-    
-    // Database of medication recommendations based on symptoms
-    // In a real application, this would come from a server/API
-    const medicationDatabase = {
-        'Headache': [
-            {
-                name: 'Acetaminophen (Tylenol)',
-                dosage: '500-1000mg every 4-6 hours as needed',
-                description: 'Pain reliever that works by blocking pain signals in the brain.',
-                warnings: 'Do not exceed 4000mg in 24 hours. Avoid alcohol. May cause liver damage in high doses or with long-term use.',
-                rank: 1
-            },
-            {
-                name: 'Ibuprofen (Advil, Motrin)',
-                dosage: '200-400mg every 4-6 hours as needed',
-                description: 'Nonsteroidal anti-inflammatory drug (NSAID) that reduces inflammation and pain.',
-                warnings: 'Take with food. May cause stomach irritation or bleeding. Not recommended for those with kidney problems or certain heart conditions.',
-                rank: 2
-            },
-            {
-                name: 'Aspirin',
-                dosage: '325-650mg every 4-6 hours as needed',
-                description: 'Pain reliever that reduces inflammation and fever.',
-                warnings: 'Not recommended for children under 12. May cause stomach irritation. Increases risk of bleeding.',
-                rank: 3
-            }
-        ],
-        'Fever': [
-            {
-                name: 'Acetaminophen (Tylenol)',
-                dosage: '500-1000mg every 4-6 hours as needed',
-                description: 'Reduces fever by acting on the temperature-regulating center of the brain.',
-                warnings: 'Do not exceed 4000mg in 24 hours. Avoid alcohol. May cause liver damage in high doses or with long-term use.',
-                rank: 1
-            },
-            {
-                name: 'Ibuprofen (Advil, Motrin)',
-                dosage: '200-400mg every 4-6 hours as needed',
-                description: 'Reduces fever and inflammation.',
-                warnings: 'Take with food. May cause stomach irritation or bleeding. Not recommended for those with kidney problems or certain heart conditions.',
-                rank: 2
-            }
-        ],
-        'Cough': [
-            {
-                name: 'Dextromethorphan (Robitussin DM)',
-                dosage: 'Follow package instructions based on age and weight',
-                description: 'Cough suppressant that works by affecting the signals in the brain that trigger the cough reflex.',
-                warnings: 'May cause drowsiness. Avoid alcohol. Not recommended for productive coughs that are clearing mucus.',
-                rank: 1
-            },
-            {
-                name: 'Guaifenesin (Mucinex)',
-                dosage: 'Follow package instructions based on age and weight',
-                description: 'Expectorant that helps loosen congestion and thin bronchial secretions to make coughs more productive.',
-                warnings: 'Drink plenty of water. May cause nausea or vomiting.',
-                rank: 2
-            }
-        ],
-        'Sore Throat': [
-            {
-                name: 'Benzocaine/Menthol Lozenges',
-                dosage: 'One lozenge every 2 hours as needed',
-                description: 'Numbing agent combined with cooling menthol to temporarily relieve throat pain.',
-                warnings: 'Do not use more than 10 lozenges per day. Not for children under 4.',
-                rank: 1
-            },
-            {
-                name: 'Ibuprofen (Advil, Motrin)',
-                dosage: '200-400mg every 4-6 hours as needed',
-                description: 'Reduces pain and inflammation in the throat.',
-                warnings: 'Take with food. May cause stomach irritation or bleeding. Not recommended for those with kidney problems or certain heart conditions.',
-                rank: 2
-            }
-        ],
-        'Runny Nose': [
-            {
-                name: 'Loratadine (Claritin)',
-                dosage: '10mg once daily',
-                description: 'Non-drowsy antihistamine that reduces sneezing, itching, watery eyes, and runny nose.',
-                warnings: 'May cause dry mouth. Takes 1-3 hours to take effect, but lasts 24 hours.',
-                rank: 1
-            },
-            {
-                name: 'Pseudoephedrine (Sudafed)',
-                dosage: '30-60mg every 4-6 hours',
-                description: 'Decongestant that shrinks blood vessels in the nasal passages and reduces nasal congestion.',
-                warnings: 'May cause insomnia, nervousness, or increased blood pressure. Not recommended for those with hypertension, heart disease, or glaucoma.',
-                rank: 2
-            }
-        ],
-        'Body Aches': [
-            {
-                name: 'Ibuprofen (Advil, Motrin)',
-                dosage: '200-400mg every 4-6 hours as needed',
-                description: 'Nonsteroidal anti-inflammatory drug (NSAID) that reduces inflammation and pain.',
-                warnings: 'Take with food. May cause stomach irritation or bleeding. Not recommended for those with kidney problems or certain heart conditions.',
-                rank: 1
-            },
-            {
-                name: 'Acetaminophen (Tylenol)',
-                dosage: '500-1000mg every 4-6 hours as needed',
-                description: 'Pain reliever that works by blocking pain signals in the brain.',
-                warnings: 'Do not exceed 4000mg in 24 hours. Avoid alcohol. May cause liver damage in high doses or with long-term use.',
-                rank: 2
-            }
-        ],
-        'Fatigue': [
-            {
-                name: 'Rest and hydration',
-                dosage: 'Not applicable',
-                description: 'No medication recommended. Focus on getting adequate sleep and staying hydrated.',
-                warnings: 'If fatigue persists for more than a week, consult a healthcare provider.',
-                rank: 1
-            },
-            {
-                name: 'Multivitamin',
-                dosage: 'One daily with food',
-                description: 'May help if fatigue is related to nutritional deficiencies.',
-                warnings: 'Not a substitute for proper nutrition. Consult a healthcare provider if fatigue is severe or persistent.',
-                rank: 2
-            }
-        ],
-        'Nausea': [
-            {
-                name: 'Dimenhydrinate (Dramamine)',
-                dosage: '50-100mg every 4-6 hours as needed',
-                description: 'Antihistamine that helps prevent and treat nausea, vomiting, and dizziness.',
-                warnings: 'May cause drowsiness. Avoid alcohol and operating machinery. Not recommended for children under 12 without medical advice.',
-                rank: 1
-            },
-            {
-                name: 'Ginger capsules',
-                dosage: '250-500mg up to 3 times daily',
-                description: 'Natural remedy that may help reduce nausea.',
-                warnings: 'May interact with blood thinners. Consult healthcare provider if pregnant or taking medications.',
-                rank: 2
-            }
-        ],
-        'Dizziness': [
-            {
-                name: 'Meclizine (Antivert)',
-                dosage: '25-50mg every 24 hours as needed',
-                description: 'Antihistamine that helps relieve dizziness associated with motion sickness or inner ear problems.',
-                warnings: 'May cause drowsiness. Avoid alcohol and operating machinery. Not recommended for children under 12 without medical advice.',
-                rank: 1
-            },
-            {
-                name: 'Dimenhydrinate (Dramamine)',
-                dosage: '50-100mg every 4-6 hours as needed',
-                description: 'Antihistamine that helps prevent and treat nausea, vomiting, and dizziness.',
-                warnings: 'May cause drowsiness. Avoid alcohol and operating machinery. Not recommended for children under 12 without medical advice.',
-                rank: 2
-            }
-        ],
-        'Chest Pain': [
-            {
-                name: 'Seek immediate medical attention',
-                dosage: 'Not applicable',
-                description: 'Chest pain could be a sign of a serious condition and requires immediate medical evaluation.',
-                warnings: 'Do not attempt to self-medicate. Call emergency services or go to the nearest emergency room.',
-                rank: 1
-            }
-        ]
-    };
-    
-    // Create recommendations based on symptoms
-    const recommendations = [];
-    
-    // Get recommendations for each symptom
-    symptoms.forEach(symptom => {
-        if (medicationDatabase[symptom]) {
-            medicationDatabase[symptom].forEach(medication => {
-                // Check if the medication is already in recommendations
-                const existingRec = recommendations.find(rec => rec.name === medication.name);
-                
-                if (!existingRec) {
-                    // Consider severity in ranking
-                    let adjustedRank = medication.rank;
-                    if (severity === 'severe' && medication.rank > 1) {
-                        // For severe symptoms, make higher-ranked medications more prominent
-                        adjustedRank -= 0.5;
-                    }
-                    
-                    recommendations.push({
-                        ...medication,
-                        adjustedRank,
-                        symptoms: [symptom]
-                    });
-                } else {
-                    // If medication already exists, add the symptom to its list
-                    existingRec.symptoms.push(symptom);
-                    
-                    // Improve ranking if it treats multiple symptoms
-                    existingRec.adjustedRank -= 0.2;
-                }
+        function initializeApp() {
+            // Add event listeners to navigation buttons
+            document.getElementById('to-symptoms-btn').addEventListener('click', validateAndProceedToSymptoms);
+            document.getElementById('back-to-info-btn').addEventListener('click', showUserInfoSection);
+            document.getElementById('analyze-btn').addEventListener('click', validateAndAnalyzeSymptoms);
+            document.getElementById('back-to-symptoms-btn').addEventListener('click', showSymptomSection);
+            document.getElementById('start-over-btn').addEventListener('click', function() {
+                window.location.href = 'index.html';
             });
+            
+            // Add BMI calculation when height and weight are changed
+            const heightInput = document.getElementById('height');
+            const weightInput = document.getElementById('weight');
+            
+            if (heightInput && weightInput) {
+                heightInput.addEventListener('change', calculateBMI);
+                weightInput.addEventListener('change', calculateBMI);
+            }
         }
-    });
-    
-    // Sort recommendations by adjusted rank
-    recommendations.sort((a, b) => a.adjustedRank - b.adjustedRank);
-    
-    // Take top 3 recommendations
-    const topRecommendations = recommendations.slice(0, 3);
-    
-    // Display each recommendation
-    topRecommendations.forEach((medication, index) => {
-        const rankClass = `rank-${index + 1}`;
-        
-        const medicationCard = document.createElement('div');
-        medicationCard.className = `medication-card ${rankClass}`;
-        
-        medicationCard.innerHTML = `
-            <div class="rank-badge">Recommendation ${index + 1}</div>
-            <div class="medication-info">
-                <h3>${medication.name}</h3>
-                <div class="info-group">
-                    <h4>Treats:</h4>
-                    <p>${medication.symptoms.join(', ')}</p>
-                </div>
-                <div class="info-group">
-                    <h4>Suggested Dosage:</h4>
-                    <p>${medication.dosage}</p>
-                </div>
-                <div class="info-group">
-                    <h4>Description:</h4>
-                    <p>${medication.description}</p>
-                </div>
-                <div class="info-group">
-                    <h4>Warnings:</h4>
-                    <p>${medication.warnings}</p>
-                </div>
-                <div class="action-buttons">
-                    <a href="https://www.cvs.com/search?searchTerm=${encodeURIComponent(medication.name)}" class="cvs-link-btn" target="_blank">Find at CVS</a>
-                </div>
-            </div>
-        `;
-        
-        medicationList.appendChild(medicationCard);
-    });
-    
-    // Special handling for chest pain
-    if (symptoms.includes('Chest Pain')) {
-        const warningElement = document.createElement('div');
-        warningElement.className = 'disclaimer';
-        warningElement.style.backgroundColor = '#ffebee';
-        warningElement.innerHTML = `
-            <h3 style="color: #c62828;">URGENT MEDICAL ATTENTION REQUIRED</h3>
-            <p style="font-weight: bold;">You've indicated chest pain as one of your symptoms. Chest pain can be a sign of a serious medical condition, including heart attack.</p>
-            <p>Please call emergency services (911) or go to the nearest emergency room immediately. Do not attempt to self-medicate chest pain.</p>
-        `;
-        
-        medicationList.insertBefore(warningElement, medicationList.firstChild);
-    }
-    
-    // Add warning for severe symptoms
-    if (severity === 'severe') {
-        const severityWarning = document.createElement('div');
-        severityWarning.className = 'disclaimer';
-        severityWarning.style.backgroundColor = '#fff8e1';
-        severityWarning.innerHTML = `
-            <h3 style="color: #f57c00;">Severe Symptoms Warning</h3>
-            <p>You've indicated that your symptoms are severe. If your symptoms are debilitating or worsening, please consider seeking professional medical care.</p>
-        `;
-        
-        medicationList.insertBefore(severityWarning, medicationList.firstChild);
-    }
-}}
+
+        // Navigation functions
+        function showUserInfoSection() {
+            document.getElementById('user-info-section').style.display = 'block';
+            document.getElementById('symptoms-section').style.display = 'none';
+            document.getElementById('results-section').style.display = 'none';
+        }
+
+        function showSymptomSection() {
+            document.getElementById('user-info-section').style.display = 'none';
+            document.getElementById('symptoms-section').style.display = 'block';
+            document.getElementById('results-section').style.display = 'none';
+        }
+
+        function showResultsSection() {
+            // Gather user information
+            const gender = document.getElementById('gender').value;
+            const age = document.getElementById('age').value;
+            const conditions = document.getElementById('conditions').value;
+            
+            // Get selected symptoms
+            const selectedSymptoms = [];
+            const checkboxes = document.querySelectorAll('input[name="symptoms"]:checked');
+            checkboxes.forEach(checkbox => {
+                selectedSymptoms.push(checkbox.value);
+            });
+            
+            // Get severity
+            let severity = '';
+            const severityOptions = document.querySelectorAll('input[name="severity"]:checked');
+            if (severityOptions.length > 0) {
+                severity = severityOptions[0].value;
+            }
+            
+            // Get duration
+            const duration = document.getElementById('duration').value;
+            
+            // Get additional notes
+            const additionalNotes = document.getElementById('additional').value;
+            
+            // Display in results section
+            document.getElementById('result-gender').textContent = gender || 'Not specified';
+            document.getElementById('result-age').textContent = age || 'Not specified';
+            document.getElementById('result-symptoms').textContent = selectedSymptoms.join(', ') || 'None selected';
+            
+            // Show results section
+            document.getElementById('user-info-section').style.display = 'none';
+            document.getElementById('symptoms-section').style.display = 'none';
+            document.getElementById('results-section').style.display = 'block';
+            
+            // In a real application, you would call an API here to get medication recommendations
+            // For now, we'll just generate placeholders
+            generateMedicationRecommendations(selectedSymptoms, severity, duration, conditions);
+        }
+
+        // Validation functions
+        function validateAndProceedToSymptoms() {
+            const gender = document.getElementById('gender').value;
+            const age = document.getElementById('age').value;
+            
+            // Simple validation
+            if (!gender) {
+                alert('Please select your gender.');
+                return;
+            }
+            
+            if (!age || age < 1 || age > 120) {
+                alert('Please enter a valid age (between 1 and 120).');
+                return;
+            }
+            
+            // If validation passes, proceed to symptoms section
+            showSymptomSection();
+        }
+
+        function validateAndAnalyzeSymptoms() {
+            const selectedSymptoms = document.querySelectorAll('input[name="symptoms"]:checked');
+            const severity = document.querySelector('input[name="severity"]:checked');
+            const duration = document.getElementById('duration').value;
+            
+            // Simple validation
+            if (selectedSymptoms.length === 0) {
+                alert('Please select at least one symptom.');
+                return;
+            }
+            
+            if (!severity) {
+                alert('Please select symptom severity.');
+                return;
+            }
+            
+            if (!duration) {
+                alert('Please select how long you have had these symptoms.');
+                return;
+            }
+            
+            // If validation passes, proceed to results section
+            showResultsSection();
+        }
+
+        // Helper functions
+        function calculateBMI() {
+            const heightInput = document.getElementById('height');
+            const weightInput = document.getElementById('weight');
+            
+            if (!heightInput || !weightInput) return;
+            
+            const height = parseFloat(heightInput.value);
+            const weight = parseFloat(weightInput.value);
+            
+            if (height && weight && height > 0 && weight > 0) {
+                // BMI formula: weight (kg) / [height (m)]²
+                const heightInMeters = height / 100;
+                const bmi = weight / (heightInMeters * heightInMeters);
+                
+                // We could display this somewhere in the UI
+                console.log('BMI calculated:', bmi.toFixed(1));
+                
+                // In a real app, you might want to display this information to the user
+                // or use it in the symptom analysis
+            }
+        }
+
+        function generateMedicationRecommendations(symptoms, severity, duration, conditions) {
+            const medicationList = document.getElementById('medication-list');
+            medicationList.innerHTML = ''; // Clear existing content
+            
+            if (symptoms.length === 0) {
+                const noSymptomsMessage = document.createElement('p');
+                noSymptomsMessage.textContent = 'No symptoms selected. Please go back and select symptoms for analysis.';
+                medicationList.appendChild(noSymptomsMessage);
+                return;
+            }
+            
+            // Sample medications based on common symptoms
+            const medications = [];
+            
+            // Common pain relievers for multiple symptoms
+            const painRelievers = [
+                {
+                    name: 'Acetaminophen (Tylenol)',
+                    type: 'Pain Reliever & Fever Reducer',
+                    sideEffects: 'Liver damage (with high doses or when combined with alcohol)'
+                },
+                {
+                    name: 'Ibuprofen (Advil, Motrin)',
+                    type: 'NSAID Pain Reliever & Fever Reducer',
+                    sideEffects: 'Stomach upset, heartburn, increased risk of heart attack or stroke with long-term use'
+                },
+                {
+                    name: 'Aspirin',
+                    type: 'NSAID Pain Reliever & Fever Reducer',
+                    sideEffects: 'Stomach upset, heartburn, increased risk of bleeding'
+                }
+            ];
+            
+            // Add medications based on symptoms
+            if (symptoms.includes('Headache')) {
+                // Add pain relievers for headache
+                medications.push({
+                    ...painRelievers[0],
+                    rank: 1
+                });
+                
+                medications.push({
+                    ...painRelievers[1],
+                    rank: 2
+                });
+                
+                // Add specific headache medication
+                medications.push({
+                    name: 'Excedrin Migraine',
+                    rank: 3,
+                    type: 'Combination Pain Reliever',
+                    sideEffects: 'Nervousness, dizziness, insomnia (contains caffeine)'
+                });
+            }
+            
+            if (symptoms.includes('Fever') || symptoms.includes('Body Aches')) {
+                // For fever and body aches, pain relievers are first line
+                if (!medications.some(med => med.name === painRelievers[0].name)) {
+                    medications.push({
+                        ...painRelievers[0],
+                        rank: 1
+                    });
+                }
+                
+                if (!medications.some(med => med.name === painRelievers[1].name)) {
+                    medications.push({
+                        ...painRelievers[1],
+                        rank: 2
+                    });
+                }
+            }
+            
+            if (symptoms.includes('Cough')) {
+                medications.push({
+                    name: 'Dextromethorphan (Robitussin DM)',
+                    rank: 1,
+                    type: 'Cough Suppressant',
+                    sideEffects: 'Drowsiness, dizziness, nausea'
+                });
+                
+                medications.push({
+                    name: 'Guaifenesin (Mucinex)',
+                    rank: 2,
+                    type: 'Expectorant',
+                    sideEffects: 'Nausea, vomiting, stomach pain'
+                });
+            }
+            
+            if (symptoms.includes('Runny Nose') || symptoms.includes('Sore Throat')) {
+                medications.push({
+                    name: 'Diphenhydramine (Benadryl)',
+                    rank: 1,
+                    type: 'Antihistamine',
+                    sideEffects: 'Drowsiness, dry mouth, dizziness'
+                });
+                
+                medications.push({
+                    name: 'Loratadine (Claritin)',
+                    rank: 2,
+                    type: 'Non-Drowsy Antihistamine',
+                    sideEffects: 'Headache, dry mouth (less drowsiness than Benadryl)'
+                });
+                
+                if (symptoms.includes('Sore Throat')) {
+                    medications.push({
+                        name: 'Benzocaine Lozenges (Cepacol)',
+                        rank: 3,
+                        type: 'Throat Pain Reliever',
+                        sideEffects: 'Numbness in mouth, allergic reactions (rare)'
+                    });
+                }
+            }
+            
+            if (symptoms.includes('Nausea')) {
+                medications.push({
+                    name: 'Bismuth Subsalicylate (Pepto-Bismol)',
+                    rank: 1,
+                    type: 'Antacid & Anti-nausea',
+                    sideEffects: 'Black stools, temporary darkening of tongue'
+                });
+                
+                medications.push({
+                    name: 'Dimenhydrinate (Dramamine)',
+                    rank: 2,
+                    type: 'Anti-nausea & Motion Sickness',
+                    sideEffects: 'Drowsiness, dry mouth, blurred vision'
+                });
+            }
+            
+            if (symptoms.includes('Dizziness')) {
+                medications.push({
+                    name: 'Meclizine (Bonine, Antivert)',
+                    rank: 1,
+                    type: 'Anti-vertigo Medication',
+                    sideEffects: 'Drowsiness, dry mouth'
+                });
+            }
+            
+            if (symptoms.includes('Chest Pain')) {
+                // For chest pain, we should strongly suggest medical attention
+                const warningMessage = document.createElement('div');
+                warningMessage.className = 'disclaimer';
+                warningMessage.innerHTML = `
+                    <h3>Important Warning</h3>
+                    <p><strong>Chest pain can be a sign of a serious medical condition, including heart attack.</strong></p>
+                    <p>If you are experiencing chest pain, especially if it is severe, sudden, or accompanied by shortness of breath, arm/jaw pain, or sweating, please seek immediate medical attention.</p>
+                    <p>Call emergency services (911 in the US) or go to the nearest emergency room.</p>
+                `;
+                medicationList.appendChild(warningMessage);
+                
+                // Still provide over-the-counter options but with clear warnings
+                medications.push({
+                    name: 'Aspirin (81mg)',
+                    rank: 1,
+                    type: 'Blood Thinner',
+                    sideEffects: 'CONSULT A DOCTOR BEFORE TAKING. May help during a heart attack, but should only be taken under medical advice.'
+                });
+            }
+            
+            // Adjust medication rankings if specific conditions warrant it
+            if (conditions && conditions.toLowerCase().includes('liver')) {
+                // Move acetaminophen down in rank or add warnings
+                medications.forEach(med => {
+                    if (med.name.includes('Acetaminophen')) {
+                        med.sideEffects = 'NOT RECOMMENDED for those with liver disease. ' + med.sideEffects;
+                    }
+                });
+            }
+            
+            if (conditions && (conditions.toLowerCase().includes('stomach') || 
+                conditions.toLowerCase().includes('ulcer') || 
+                conditions.toLowerCase().includes('gastritis'))) {
+                // Add warnings for NSAIDs
+                medications.forEach(med => {
+                    if (med.name.includes('Ibuprofen') || med.name.includes('Aspirin')) {
+                        med.sideEffects = 'USE WITH CAUTION with stomach conditions. May worsen ulcers or gastritis. ' + med.sideEffects;
+                    }
+                });
+            }
+            
+            // Create medication cards
+            medications.forEach((med, index) => {
+                // Check if medication already exists (to avoid duplicates)
+                if (document.querySelector(`.medication-card[data-name="${med.name}"]`)) {
+                    return; // Skip if already added
+                }
+                
+                const card = document.createElement('div');
+                card.className = `medication-card rank-${med.rank}`;
+                card.setAttribute('data-name', med.name);
+                
+                // Add fake pharmacy link for most medications
+                const cvsLink = index % 2 === 0 ? 
+                    `<div class="action-buttons">
+                        <a href="#" class="cvs-link-btn" onclick="alert('This would link to a pharmacy product page in a real application.'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Find at Pharmacy
+                        </a>
+                    </div>` : '';
+                
+                const html = `
+                    <div class="rank-badge">Rank ${med.rank}</div>
+                    <div class="medication-info">
+                        <h3>${med.name}</h3>
+                        ${cvsLink}
+                        <div class="info-group">
+                            <h4>Type:</h4>
+                            <p>${med.type}</p>
+                        </div>
+                        <div class="info-group">
+                            <h4>Side Effects:</h4>
+                            <p>${med.sideEffects}</p>
+                        </div>
+                    </div>
+                `;
+                
+                card.innerHTML = html;
+                medicationList.appendChild(card);
+            });
+            
+            if (medications.length === 0 && !symptoms.includes('Chest Pain')) {
+                const noRecommendationsMessage = document.createElement('p');
+                noRecommendationsMessage.textContent = 'No specific medication recommendations for the selected symptoms. Please consult a healthcare professional.';
+                medicationList.appendChild(noRecommendationsMessage);
+            }
+            
+            // Add general disclaimer at the bottom
+            if (!document.querySelector('.disclaimer')) {
+                const disclaimer = document.createElement('div');
+                disclaimer.className = 'disclaimer';
+                disclaimer.innerHTML = `
+                    <h3>Disclaimer</h3>
+                    <p>This information is provided for reference only and cannot replace professional medical advice.</p>
+                    <p>Always read medication labels carefully before use.</p>
+                    <p>If symptoms are severe or persistent, please consult a healthcare professional.</p>
+                `;
+                medicationList.appendChild(disclaimer);
+            }
+        }
+    </script>
+</body>
+</html>

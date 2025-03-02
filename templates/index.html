@@ -1,12 +1,18 @@
-<form action="/recommend" method="post">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Healthcare Analysis</title>
     <style>
+        /* Combined styles from style.css */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Arial', sans-serif;
         }
-    
+
         body {
             min-height: 100vh;
             background: linear-gradient(135deg, 
@@ -14,7 +20,7 @@
                 rgba(196, 224, 255, 0.1) 100%);
             padding-bottom: 60px; /* Adjusted for footer height */
         }
-    
+
         /* Main content styles */
         .main-container {
             width: 100%;
@@ -28,7 +34,7 @@
             position: relative;
             overflow: hidden;
         }
-    
+
         /* Decorative medical crosses */
         .main-container::before,
         .main-container::after {
@@ -38,31 +44,31 @@
             color: rgba(147, 197, 253, 0.05);
             z-index: 0;
         }
-    
+
         .main-container::before {
             top: -100px;
             left: -100px;
         }
-    
+
         .main-container::after {
             bottom: -100px;
             right: -100px;
         }
-    
+
         header {
             text-align: center;
             margin-bottom: 3rem;
             position: relative;
             z-index: 1;
         }
-    
+
         h1 {
             font-size: 2.5rem;
             color: #3b82f6;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
-    
+
         .login-container {
             background: rgba(255, 255, 255, 0.9);
             padding: 2rem 3rem;
@@ -75,11 +81,11 @@
             position: relative;
             z-index: 1;
         }
-    
+
         .input-group {
             margin-bottom: 1.5rem;
         }
-    
+
         label {
             display: block;
             margin-bottom: 0.5rem;
@@ -87,7 +93,7 @@
             font-weight: 600;
             font-size: 1.1rem;
         }
-    
+
         input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -97,13 +103,13 @@
             transition: all 0.3s ease;
             margin-bottom: 1.5rem;
         }
-    
+
         input:focus {
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
-    
+
         button {
             background: linear-gradient(135deg, #3b82f6, #1e40af);
             color: white;
@@ -116,16 +122,16 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
         }
-    
+
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 8px rgba(59, 130, 246, 0.3);
         }
-    
+
         button:active {
             transform: translateY(0);
         }
-    
+
         /* Medical icons background */
         .medical-bg {
             position: absolute;
@@ -134,14 +140,14 @@
             z-index: 0;
             opacity: 0.05;
         }
-    
+
         .medical-icon {
             position: absolute;
             font-size: 2rem;
             color: #3b82f6;
             animation: float 6s ease-in-out infinite;
         }
-    
+
         /* Footer styles */
         .footer {
             position: fixed;
@@ -154,132 +160,132 @@
             height: 60px; /* Reduced height */
             z-index: 100;
         }
-    
+
         .footer-container {
             width: 100%;
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 1rem;
         }
-    
+
         .footer-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
             height: 100%;
         }
-    
+
         .footer-text {
             font-size: 0.875rem;
             color: #64748b;
         }
-    
+
         .footer-links {
             display: flex;
             gap: 1.5rem;
         }
-    
+
         .footer-link {
             color: #64748b;
             text-decoration: none;
             font-size: 0.875rem;
             transition: color 0.2s;
         }
-    
+
         .footer-link:hover {
             color: #3b82f6;
         }
-    
+
         /* Animations */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
             100% { transform: translateY(0px); }
         }
-    
+
         /* Responsive design */
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
             }
-    
+
             .login-container {
                 padding: 1.5rem 2rem;
             }
-    
+
             .main-container::before,
             .main-container::after {
                 font-size: 200px;
             }
-    
+
             .footer-content {
                 flex-direction: column;
                 gap: 0.5rem;
                 text-align: center;
             }
-    
+
             .footer {
                 height: auto;
                 padding: 1rem 0;
             }
-    
+
             .footer-links {
                 justify-content: center;
             }
-    
+
             body {
                 padding-bottom: 100px;
             }
         }
-    
+
         @media (max-width: 480px) {
             h1 {
                 font-size: 1.75rem;
             }
-    
+
             .login-container {
                 padding: 1rem 1.5rem;
             }
         }
-        </style>
-    </head>
-    <body>
-        <div class="main-container">
-            <!-- Medical background elements -->
-            <div class="medical-bg">
-                <span class="medical-icon" style="top: 10%; left: 10%;">⚕️</span>
-                <span class="medical-icon" style="top: 30%; right: 15%;">🏥</span>
-                <span class="medical-icon" style="bottom: 20%; left: 20%;">💉</span>
-                <span class="medical-icon" style="bottom: 40%; right: 10%;">🔬</span>
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Medical background elements -->
+        <div class="medical-bg">
+            <span class="medical-icon" style="top: 10%; left: 10%;">⚕️</span>
+            <span class="medical-icon" style="top: 30%; right: 15%;">🏥</span>
+            <span class="medical-icon" style="bottom: 20%; left: 20%;">💉</span>
+            <span class="medical-icon" style="bottom: 40%; right: 10%;">🔬</span>
+        </div>
+
+        <header>
+            <h1>Welcome To AI Healthcare Analysis</h1>
+        </header>
+
+        <div class="login-container">
+            <div class="input-group">
+                <label for="userName">User Name</label>
+                <input type="text" id="userName" name="userName" placeholder="Enter your username" autocomplete="off">
             </div>
-    
-            <header>
-                <h1>Welcome To AI Healthcare Analysis</h1>
-            </header>
-    
-            <div class="login-container">
-                <div class="input-group">
-                    <label for="userName">User Name</label>
-                    <input type="text" id="userName" name="userName" placeholder="Enter your username" autocomplete="off">
+           <button onclick="window.location.href='results.html'">Get Started</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    © <script>document.write(new Date().getFullYear())</script> HealthAI Analysis. All rights reserved.
                 </div>
-               <button onclick="window.location.assign('results.html')">Get Started</button>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Data Protection</a>
+                    <a href="#" class="footer-link">AI Ethics</a>
+                </div>
             </div>
         </div>
-    
-        <footer class="footer">
-            <div class="footer-container">
-                <div class="footer-content">
-                    <div class="footer-text">
-                        © <script>document.write(new Date().getFullYear())</script> HealthAI Analysis. All rights reserved.
-                    </div>
-                    <div class="footer-links">
-                        <a href="#" class="footer-link">Privacy Policy</a>
-                        <a href="#" class="footer-link">Terms of Service</a>
-                        <a href="#" class="footer-link">Data Protection</a>
-                        <a href="#" class="footer-link">AI Ethics</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </body>
-</form>
+    </footer>
+</body>
+</html>
