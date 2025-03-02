@@ -22,50 +22,93 @@
                 <a href="/" class="back-btn">Search Again</a>
             </section>
             
-            <section class="results-section">
-                <h2>Recommended Medications</h2>
+            <div class="tab-container">
+                <div class="tab-navigation">
+                    <button class="tab-btn active" data-tab="medications">Medications</button>
+                    <button class="tab-btn" data-tab="pharmacies">Nearby Pharmacies</button>
+                </div>
                 
-                <div class="medication-list">
-                    {% for med in medications %}
-                    <div class="medication-card rank-{{ med.rank }}">
-                        <div class="rank-badge">Rank {{ med.rank }}</div>
+                <!-- Medication Tab-->
+                <div class="tab-content active" id="medications-tab">
+                    <section class="results-section">
+                        <h2>Recommended Medications</h2>
                         
-                        <div class="medication-info">
-                            <h3>{{ med.name }}</h3>
+                        <div class="medication-list">
+                            {% for med in medications %}
+                            <div class="medication-card rank-{{ med.rank }}">
+                                <div class="rank-badge">Rank {{ med.rank }}</div>
+                                
+                                <div class="medication-info">
+                                    <h3>{{ med.name }}</h3>
+                                    
+                                    {% if med.cvs_link %}
+                                    <div class="cvs-link-container">
+                                        <a href="{{ med.cvs_link }}" target="_blank" class="cvs-link-btn">
+                                            <span class="cvs-icon">CVS</span>
+                                            <span class="cvs-text">View at CVS Pharmacy</span>
+                                            <span class="cvs-note">See images, prices, and details</span>
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    {% if med.image_url %}
+                                    <img src="{{ med.image_url }}" alt="{{ med.name }}" class="medication-image">
+                                    {% endif %}
 
-                            {% if med.cvs_link %}
-                            <div class="action-buttons">
-                                <a href="{{ med.cvs_link }}" target="_blank" class="cvs-link-btn">
-                                    <i class="fas fa-shopping-cart"></i> Find at CVS
-                                </a>
+                                    {% if med.medication_type %}
+                                    <div class="info-group">
+                                        <h4>Type:</h4>
+                                        <p>{{ med.medication_type }}</p>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    {% if med.side_effects %}
+                                    <div class="info-group">
+                                        <h4>Side Effects:</h4>
+                                        <p>{{ med.side_effects }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
                             </div>
-                            {% endif %}                        
-
-                            {% if med.medication_type %}
-                            <div class="info-group">
-                                <h4>Type:</h4>
-                                <p>{{ med.medication_type }}</p>
-                            </div>
-                            {% endif %}
-                            
-                            {% if med.side_effects %}
-                            <div class="info-group">
-                                <h4>Side Effects:</h4>
-                                <p>{{ med.side_effects }}</p>
-                            </div>
-                            {% endif %}
+                            {% endfor %}
                         </div>
-                    </div>
-                    {% endfor %}
+                    </section>
                 </div>
                 
-                <div class="disclaimer">
-                    <h3>Disclaimer</h3>
-                    <p>This information is provided for reference only and cannot replace professional medical advice.</p>
-                    <p>Always read medication labels carefully before use.</p>
-                    <p>If symptoms are severe or persistent, please consult a healthcare professional.</p>
+                <!-- Pharmacy tab -->
+                <div class="tab-content" id="pharmacies-tab">
+                    <section class="pharmacy-section">
+                        <h2>Find Nearby Pharmacies</h2>
+                        
+                        <div class="zipcode-form">
+                            <form id="pharmacy-search-form">
+                                <div class="form-group">
+                                    <label for="zipcode">Enter your ZIP code:</label>
+                                    <input type="text" id="zipcode" name="zipcode" pattern="[0-9]{5}" placeholder="e.g. 95132" required>
+                                    <button type="submit" class="search-btn">Find Pharmacies</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div id="pharmacy-results" class="pharmacy-results">
+                            <div class="loading" style="display: none;">
+                                <div class="spinner"></div>
+                                <p>Searching for pharmacies...</p>
+                            </div>
+                            
+                            <div class="pharmacy-list">
+                            </div>
+                        </div>
+                    </section>
                 </div>
-            </section>
+            </div>
+            
+            <div class="disclaimer">
+                <h3>Disclaimer</h3>
+                <p>This information is provided for reference only and cannot replace professional medical advice.</p>
+                <p>Always read medication labels carefully before use.</p>
+                <p>If symptoms are severe or persistent, please consult a healthcare professional.</p>
+            </div>
         </main>
         
         <footer>
@@ -73,5 +116,111 @@
             <p>This service cannot replace medical advice and is for informational purposes only.</p>
         </footer>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all tab buttons
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    
+                    // Hide all tab contents
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    // Show selected tab content
+                    const tabId = btn.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Pharmacy search form handling
+            const pharmacyForm = document.getElementById('pharmacy-search-form');
+            const pharmacyResults = document.getElementById('pharmacy-results');
+            const pharmacyList = document.querySelector('.pharmacy-list');
+            const loadingIndicator = document.querySelector('.loading');
+            
+            if (pharmacyForm) {
+                pharmacyForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const zipcode = document.getElementById('zipcode').value.trim();
+                    
+                    if (!zipcode || !/^\d{5}$/.test(zipcode)) {
+                        alert('Please enter a valid 5-digit ZIP code');
+                        return;
+                    }
+                    
+                    // Show loading indicator
+                    loadingIndicator.style.display = 'block';
+                    pharmacyList.innerHTML = '';
+                    
+                    try {
+                        // Send request to server
+                        const response = await fetch(`/api/pharmacies?zipcode=${zipcode}`);
+                        const data = await response.json();
+                        
+                        // Hide loading indicator
+                        loadingIndicator.style.display = 'none';
+                        
+                        if (!response.ok) {
+                            // Handle error response
+                            const errorMessage = data.error || "Failed to find pharmacies";
+                            pharmacyList.innerHTML = `<p class="error">${errorMessage}</p>`;
+                            return;
+                        }
+                        
+                        // Process successful response
+                        if (data.pharmacies && data.pharmacies.length > 0) {
+                            data.pharmacies.forEach(pharmacy => {
+                                const pharmacyItem = document.createElement('div');
+                                pharmacyItem.className = 'pharmacy-item';
+                                pharmacyItem.innerHTML = `
+                                    <h3>${escapeHtml(pharmacy.name)}</h3>
+                                    <p class="pharmacy-address">${escapeHtml(pharmacy.address)}</p>
+                                    ${pharmacy.distance ? `<p class="pharmacy-distance">${escapeHtml(pharmacy.distance)}</p>` : ''}
+                                    <div class="pharmacy-actions">
+                                        <a href="https://maps.google.com/?q=${encodeURIComponent(pharmacy.name + ' ' + pharmacy.address)}" 
+                                        target="_blank" class="map-link">View on Map</a>
+                                    </div>
+                                `;
+                                pharmacyList.appendChild(pharmacyItem);
+                            });
+                        } else {
+                            pharmacyList.innerHTML = '<p class="no-results">No pharmacies found near this ZIP code.</p>';
+                        }
+                    } catch (error) {
+                        console.error('Error fetching pharmacies:', error);
+                        loadingIndicator.style.display = 'none';
+                        pharmacyList.innerHTML = '<p class="error">Error finding pharmacies. Please try again.</p>';
+                    }
+                });
+            }
+            
+            // Helper function to escape HTML to prevent XSS
+            function escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+            
+            // Check if there's a zipcode in the URL parameters to auto-search
+            const urlParams = new URLSearchParams(window.location.search);
+            const zipcodeParam = urlParams.get('zipcode');
+            if (zipcodeParam && document.getElementById('zipcode')) {
+                document.getElementById('zipcode').value = zipcodeParam;
+                // Trigger pharmacy search if valid zipcode is in URL
+                if (/^\d{5}$/.test(zipcodeParam) && pharmacyForm) {
+                    pharmacyForm.dispatchEvent(new Event('submit'));
+                }
+            }
+        });
+    </script>
 </body>
 </html>

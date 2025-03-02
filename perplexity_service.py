@@ -48,7 +48,7 @@ class PerplexityService:
             return data["choices"][0]["message"]["content"]
         except Exception as e:
             logger.error(f"Error querying Perplexity API: {e}")
-            # If response exists, print more details
+
             if 'response' in locals():
                 logger.error(f"Response status: {response.status_code}")
                 logger.error(f"Response text: {response.text}")
@@ -65,7 +65,6 @@ class PerplexityService:
             f"Please recommend exactly 3 over-the-counter medications "
             f"that would help, ranked by effectiveness (1st, 2nd, and 3rd choice). "
             f"For each medication, provide: 1) Brand name, 2) Type of Medication ex) pill/tablet, Power, liquid/gel, Capsules, Creams/ointments/lotions 3) Side effects "
-            f"4) Photo url of medication"
             f"Format as a list with these details for each medication. "
             f"Give list of medication without introduction ex) Here is list of medication or Based on the information provided"
         )
@@ -94,7 +93,6 @@ class PerplexityService:
                     "name": None,
                     "medication_type": None,
                     "side_effects": "Not available",
-                    "image_url": None
                 }
 
                 # Extract medication name
@@ -136,22 +134,33 @@ class PerplexityService:
                     side_effects_match = re.search(pattern, section, re.IGNORECASE)
                     if side_effects_match:
                         try:
-                            medication_info["side_effects"] = side_effects_match.group(1).strip()
+                            # Remove Photo reference from side effects if present
+                            side_effects_text = side_effects_match.group(1).strip()
+                            medication_info["side_effects"] = side_effects_text
                             break  # Exit loop if a match is found
                         except IndexError as e:
                             logger.error(f"IndexError accessing regex group: {e}, pattern: {pattern}, section: {section}")
-                
-                for medication in medications:
-                    if medication["name"]:
-                        search_term = medication["name"].split('(')[0].strip()  # 괄호 앞 부분만 사용
-                        encoded_search = requests.utils.quote(search_term)
-                        medication["cvs_link"] = f"https://www.cvs.com/search?searchTerm={encoded_search}"
 
                 if medication_info["name"]:
+                    pharmacy_links = self.create_pharmacy_links(medication_info["name"])
+                    medication_info.update(pharmacy_links)
                     medications.append(medication_info)
-                rank += 1
+                    rank += 1
 
             return medications
         except Exception as e:
             logger.exception(f"Error parsing medication recommendations: {e}, response_text: {response_text}")  # Log full exception + response
             return []
+        
+    def create_pharmacy_links(self, medication_name):
+        """Create pharmacy links for a medication"""
+        # Clean up the medication name for search
+        search_term = re.sub(r'\([^)]*\)', '', medication_name).strip()
+        # Remove brand designations like "Extra Strength"
+        search_term = re.sub(r'(?:extra strength|maximum strength|children\'s|infant\'s)', '', search_term, flags=re.IGNORECASE).strip()
+        encoded_search = requests.utils.quote(search_term)
+        
+        return {
+            "cvs_link": f"https://www.cvs.com/search?searchTerm={encoded_search}",
+            "walgreens_link": f"https://www.walgreens.com/search/results.jsp?Ntt={encoded_search}",
+        }
